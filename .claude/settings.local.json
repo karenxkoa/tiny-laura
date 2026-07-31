@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"C:\\\\Users\\\\KARENO~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Karen-Ojeda-Documents-GitHub-tiny-laura\\\\31453c5d-daaa-400a-bbf7-c592ccf8bff6\\\\scratchpad\\\\fix-titulos.ps1\")"
+    ]
+  }
+}
