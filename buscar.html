@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Planillas de Stickers — Tiny Laura</title>
-<meta name="description" content="Planillas de stickers kawaii de Tiny Laura.">
+<title>Buscar — Tiny Laura</title>
+<meta name="description" content="Resultados de búsqueda en el catálogo de Tiny Laura.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -41,23 +41,11 @@
 <main id="main">
   <div class="wrap">
     <div class="section-pill-wrap">
-      <h1 class="section-pill">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/></svg>
-        Planillas de Stickers
-      </h1>
+      <h1 class="section-pill" data-busqueda-titulo>Buscar productos</h1>
     </div>
-    <nav class="pill-slider" aria-label="Categorías del catálogo">
-      <a class="cat-pill" href="descuentos.html">Descuentos</a>
-      <a class="cat-pill" href="totes-y-tshirts.html">Tote Bags y T-Shirts</a>
-      <a class="cat-pill" href="prints.html">Prints</a>
-      <a class="cat-pill is-active" href="planillas.html" aria-current="page">Planillas de Stickers</a>
-      <a class="cat-pill" href="stickers.html">Stickers Individuales</a>
-      <a class="cat-pill" href="pines.html">Pines</a>
-      <a class="cat-pill" href="charms.html">Charms</a>
-    </nav>
-    <section aria-label="Productos de la categoría">
-      <ul class="product-grid" role="list" data-categoria="planillas" style="list-style:none;padding:0;">
-        <li class="empty-state">Cargando catálogo…</li>
+    <section aria-label="Resultados de búsqueda">
+      <ul class="product-grid" role="list" data-resultados-busqueda style="list-style:none;padding:0;">
+        <li class="empty-state">Buscando…</li>
       </ul>
     </section>
   </div>
@@ -105,7 +93,7 @@
   <ul>
     <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 11l8-6 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9h12v-9" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Inicio</span></a></li>
     <li><button class="search-toggle" type="button" aria-controls="search-panel" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2.2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span>Buscar</span></button></li>
-    <li><a href="categorias.html" aria-current="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/></svg><span>Categorías</span></a></li>
+    <li><a href="categorias.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="7" height="7" rx="2" stroke="currentColor" stroke-width="2"/></svg><span>Categorías</span></a></li>
     <li><a href="conoceme.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Sobre mí</span></a></li>
   </ul>
 </nav>
@@ -113,9 +101,9 @@
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="kofi-title" aria-describedby="kofi-desc">
     <div class="modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M4 6h13v6a4 4 0 01-4 4H8a4 4 0 01-4-4V6z" stroke="currentColor" stroke-width="1.8"/><path d="M17 8h2.2a2.2 2.2 0 010 4.4H17" stroke="currentColor" stroke-width="1.8"/></svg></div>
     <h2 id="kofi-title">Ir a la tienda</h2>
-    <p id="kofi-desc">Serás redirigidx a la tienda en Ko-fi para completar tu compra.</p>
+    <p id="kofi-desc">Serás redirigidx a la pasarela de pago para completar tu compra.</p>
     <div class="modal-actions">
-      <a class="btn-kofi" data-kofi-go href="https://ko-fi.com/tinylaura" target="_blank" rel="noopener">Ir a Ko-fi</a>
+      <a class="btn-kofi" data-kofi-go href="#" target="_blank" rel="noopener">Continuar</a>
       <button class="btn-ghost" data-kofi-stay type="button">Permanecer aquí</button>
     </div>
   </div>
