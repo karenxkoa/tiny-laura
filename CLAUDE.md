@@ -63,7 +63,7 @@ Todos definidos como variables CSS en `styles.css` (`:root`). Usar siempre las v
   en la activa (no `aria-pressed`, que es para toggles), y cada categoría queda con URL propia
   compartible. En móvil la fila es carrusel horizontal; en ≥861px se centra en una línea.
 - **Flujo Ko-fi:** al dar "Comprar en Ko-Fi" se abre primero un **modal de confirmación**
-  ("Serás redirigidx a la tienda en Ko-fi") con "Ir a Ko-fi" / "Permanecer aquí".
+  ("Serás redirigidx a la tienda en Ko-fi") con "¡Continuemos!" / "Permanecer aquí".
 
 ## Accesibilidad (WCAG 2.2) — no negociable
 
