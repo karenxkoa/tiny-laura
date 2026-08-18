@@ -41,22 +41,26 @@
 <main id="main">
   <div class="wrap">
     <div class="section-pill-wrap">
-      <h2 class="section-pill">
+      <h1 class="section-pill">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M9.5 9.5a2.5 2.5 0 013.9-2c1.3.9 1 2.3-.4 3.1-.8.5-1 .9-1 1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.1" fill="currentColor"/></svg>
         Ayuda
-      </h2>
+      </h1>
     </div>
     <div class="faq-tabs" role="tablist" aria-label="Secciones de ayuda">
-      <button class="cat-pill is-active" role="tab" aria-selected="true">Preguntas Frecuentes</button>
-      <button class="cat-pill" role="tab" aria-selected="false">Términos y Condiciones</button>
+      <button class="cat-pill is-active" role="tab" id="tab-faq" aria-selected="true" aria-controls="panel-faq" tabindex="0">Preguntas Frecuentes</button>
+      <button class="cat-pill" role="tab" id="tab-terminos" aria-selected="false" aria-controls="panel-terminos" tabindex="-1">Términos y Condiciones</button>
     </div>
-      <section class="faq" aria-label="Preguntas frecuentes">
+      <section class="faq" id="panel-faq" role="tabpanel" aria-labelledby="tab-faq" tabindex="0">
         <h2>¿Hacen envíos a todo México?</h2>
         <p>Sí. Por ahora los envíos son únicamente nacionales, dentro de la República Mexicana. El costo se calcula según tu ubicación.</p>
         <h2>¿Cómo realizo mi pago?</h2>
-        <p>Al dar clic en “Comprar en Ko-Fi” te redirigimos a la tienda en Ko-fi, donde completas el pago de forma segura.</p>
+        <p>Al dar clic en “Comprar” te redirigimos a la pasarela de pago en Stripe, donde completas el pago de forma segura.</p>
         <h2>¿Qué es el método de acumulación?</h2>
         <p>Puedes ir apartando productos hasta por dos meses y pagar un solo envío cuando quieras recibirlos. Este método se gestiona por mensaje directo en Instagram.</p>
+      </section>
+      <section class="faq" id="panel-terminos" role="tabpanel" aria-labelledby="tab-terminos" tabindex="0" hidden>
+        <h2>Términos y Condiciones</h2>
+        <p><em>Contenido pendiente — falta que Laura proporcione el texto final de términos y condiciones para reemplazar este marcador.</em></p>
       </section>
   </div>
 </main>

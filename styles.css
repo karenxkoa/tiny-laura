@@ -195,7 +195,7 @@ button{ font:inherit; cursor:pointer; }
 }
 .cat-pill:hover{ background:rgba(165,50,63,.06); }
 .cat-pill[aria-pressed="true"],
-.cat-pill.is-active{ background:var(--pink); color:#fff; border-color:var(--pink); }
+.cat-pill.is-active{ background:var(--coral); color:#fff; border-color:var(--coral); }
 
 /* =========================================================
    GRID + PRODUCT CARD
@@ -271,7 +271,8 @@ button{ font:inherit; cursor:pointer; }
 }
 .polaroid{
   background:#fff; padding:16px 16px 44px; border-radius:6px;
-  box-shadow:var(--shadow-card); max-width:420px; margin-inline:auto; width:100%;
+  box-shadow:var(--shadow-card); max-width:420px; margin:24px auto; width:100%;
+  transform:rotate(-8deg);
 }
 .polaroid .photo{ aspect-ratio:4/5; background:var(--ink); border-radius:2px; }
 .about-bio{
@@ -366,6 +367,7 @@ button{ font:inherit; cursor:pointer; }
 .footer-col a{
   color:var(--text); display:inline-flex; align-items:center; min-height:32px;
 }
+.footer-col a:visited{ color:var(--text); }
 .footer-col a:hover{ color:var(--coral); }
 .footer-bottom{
   border-top:1px solid rgba(165,50,63,.25); margin-top:32px; padding-top:16px;
@@ -424,7 +426,7 @@ button{ font:inherit; cursor:pointer; }
 .bottom-nav a:hover,
 .bottom-nav button:hover{ background:rgba(165,50,63,.08); }
 /* Marca la sección activa: "page" en la propia página, "true" en sus subpáginas */
-.bottom-nav a[aria-current]{ background:var(--pink); color:#fff; }
+.bottom-nav a[aria-current]{ background:var(--coral); color:#fff; }
 
 /* Respeta reduce-motion */
 @media (prefers-reduced-motion:reduce){
@@ -445,7 +447,7 @@ button{ font:inherit; cursor:pointer; }
   .navbar{ display:none; }             /* píldora superior completa oculta: logo, links e icono de búsqueda */
   .site-header{ padding:8px 0 0; }     /* sin la píldora arriba, el header casi no ocupa alto */
   .bottom-nav{ display:flex; }         /* píldora inferior visible en móvil */
-  body{ padding-bottom:96px; }         /* deja aire para que el bottom nav no tape el footer */
+  .site-footer{ padding-bottom:120px; } /* deja aire para que el bottom nav no tape el footer, sin dejar hueco del fondo del body */
   html{ scroll-padding-bottom:104px; } /* evita que el bottom nav fijo oculte el elemento con foco */
 
   /* El buscador ya sólo se abre desde la píldora inferior: flota justo encima de ella */

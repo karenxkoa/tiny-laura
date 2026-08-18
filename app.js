@@ -83,6 +83,7 @@
 
   // ---------- Página de detalle de producto (producto.html?id=...) ----------
   var detalle = document.querySelector('[data-producto-detalle]');
+  var contenedorSimilares = document.querySelector('[data-pd-similares]');
   if (detalle) {
     var params = new URLSearchParams(window.location.search);
     var idProducto = params.get('id');
@@ -90,6 +91,7 @@
       var producto = productos.find(function (p) { return p.id === idProducto; });
       if (!producto) {
         detalle.innerHTML = '<p>No encontramos este producto. <a href="categorias.html">Ver catálogo completo</a>.</p>';
+        if (contenedorSimilares) { contenedorSimilares.innerHTML = ''; }
         return;
       }
       document.title = producto.nombre + ' — Tiny Laura';
@@ -110,6 +112,16 @@
           elBuy.setAttribute('disabled', '');
           elBuy.textContent = 'Próximamente';
         }
+      }
+
+      // "Otros productos similares": misma categoría, sin incluir el producto actual
+      if (contenedorSimilares) {
+        var similares = productos.filter(function (p) {
+          return p.categoria === producto.categoria && p.id !== producto.id;
+        }).slice(0, 4);
+        contenedorSimilares.innerHTML = similares.length
+          ? similares.map(crearTarjetaHTML).join('')
+          : '<li class="empty-state">Aún no hay más productos en esta categoría.</li>';
       }
     });
   }
@@ -177,6 +189,39 @@
       });
     }
   }
+
+  /* ---------- Tabs accesibles (ej. Ayuda: Preguntas Frecuentes / Términos) ---------- */
+  document.querySelectorAll('[role="tablist"]').forEach(function (tablist) {
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+    if (!tabs.length) { return; }
+
+    function activarTab(tab, moverFoco) {
+      tabs.forEach(function (t) {
+        var seleccionado = t === tab;
+        t.setAttribute('aria-selected', String(seleccionado));
+        t.setAttribute('tabindex', seleccionado ? '0' : '-1');
+        t.classList.toggle('is-active', seleccionado);
+        var panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) { panel.hidden = !seleccionado; }
+      });
+      if (moverFoco) { tab.focus(); }
+    }
+
+    tabs.forEach(function (tab, indice) {
+      tab.addEventListener('click', function () { activarTab(tab, false); });
+      tab.addEventListener('keydown', function (e) {
+        var nuevoIndice = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { nuevoIndice = (indice + 1) % tabs.length; }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { nuevoIndice = (indice - 1 + tabs.length) % tabs.length; }
+        else if (e.key === 'Home') { nuevoIndice = 0; }
+        else if (e.key === 'End') { nuevoIndice = tabs.length - 1; }
+        if (nuevoIndice !== null) {
+          e.preventDefault();
+          activarTab(tabs[nuevoIndice], true);
+        }
+      });
+    });
+  });
 
   /* ---------- Modal de redirección al pago ---------- */
   var modal = document.getElementById('kofi-modal');
