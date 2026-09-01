@@ -1,25 +1,28 @@
 /* Tiny Laura — interacciones compartidas
-   - Catálogo dinámico: trae los productos desde el Worker de Cloudflare (Stripe)
+   - Catálogo dinámico: trae los productos desde un JSON estático
    - Buscador de sitio completo
    - Toggle de menú móvil y del buscador
-   - Modal de redirección con focus trap, Escape y retorno de foco
+   - Modal de compra: arma un mensaje pre-llenado y redirige al DM de Instagram
 */
 (function () {
   'use strict';
 
-  // Cambia esto si tu Worker tiene otra URL
-  var WORKER_URL = 'https://tiny-laura-stripe-api.karenxkoa.workers.dev/';
+  // Ruta al catálogo estático. Ajusta si guardas el JSON en otra carpeta.
+  var CATALOGO_URL = '/assets/data/productos.json';
+
+  // Usuario de Instagram al que se redirige para cerrar la compra
+  var INSTAGRAM_USUARIO = 'tiny.laura_';
 
   var catalogoCache = null;
 
-  // ---------- Trae el catálogo del Worker (una sola vez por carga de página) ----------
+  // ---------- Trae el catálogo del JSON (una sola vez por carga de página) ----------
   async function obtenerCatalogo() {
     if (catalogoCache) { return catalogoCache; }
     try {
-      var respuesta = await fetch(WORKER_URL);
-      if (!respuesta.ok) { throw new Error('Worker respondió ' + respuesta.status); }
+      var respuesta = await fetch(CATALOGO_URL);
+      if (!respuesta.ok) { throw new Error('No se pudo cargar el catálogo: ' + respuesta.status); }
       var datos = await respuesta.json();
-      catalogoCache = datos.productos || [];
+      catalogoCache = datos || [];
     } catch (error) {
       console.error('No se pudo cargar el catálogo:', error);
       catalogoCache = [];
@@ -35,9 +38,9 @@
     var imagenHTML = producto.imagen
       ? '<img src="' + producto.imagen + '" alt="' + escaparHTML(producto.nombre) + '" loading="lazy">'
       : '';
-    var botonHTML = producto.linkPago
-      ? '<button class="btn-kofi" data-kofi data-kofi-url="' + producto.linkPago + '">Comprar</button>'
-      : '<button class="btn-kofi" disabled>Próximamente</button>';
+    var botonHTML = producto.precio != null
+      ? '<button class="btn-comprar" data-comprar data-comprar-id="' + escaparHTML(producto.id) + '">Comprar</button>'
+      : '<button class="btn-comprar" disabled>Próximamente</button>';
 
     return (
       '<li class="product-card">' +
@@ -100,17 +103,29 @@
       var elPrecio = detalle.querySelector('[data-pd-price]');
       var elImg = detalle.querySelector('[data-pd-img]');
       var elBuy = detalle.querySelector('[data-pd-buy]');
+      var elNotaVariante = detalle.querySelector('[data-pd-nota-variante]');
       if (elTitulo) { elTitulo.textContent = producto.nombre; }
       if (elDesc) { elDesc.textContent = producto.descripcion; }
       if (elPrecio) { elPrecio.textContent = '$' + producto.precio + ' ' + producto.moneda; }
       if (elImg && producto.imagen) { elImg.src = producto.imagen; elImg.alt = producto.nombre; }
       if (elBuy) {
-        if (producto.linkPago) {
-          elBuy.setAttribute('data-kofi', '');
-          elBuy.setAttribute('data-kofi-url', producto.linkPago);
+        if (producto.precio != null) {
+          elBuy.setAttribute('data-comprar', '');
+          elBuy.setAttribute('data-comprar-id', producto.id);
+          elBuy.removeAttribute('disabled');
+          elBuy.textContent = 'Comprar';
         } else {
           elBuy.setAttribute('disabled', '');
           elBuy.textContent = 'Próximamente';
+        }
+      }
+      // Texto informativo de variante (ej. tipo de laminado en stickers) — opcional
+      if (elNotaVariante) {
+        if (producto.notaVariante) {
+          elNotaVariante.textContent = producto.notaVariante;
+          elNotaVariante.hidden = false;
+        } else {
+          elNotaVariante.hidden = true;
         }
       }
 
@@ -223,22 +238,55 @@
     });
   });
 
-  /* ---------- Modal de redirección al pago ---------- */
-  var modal = document.getElementById('kofi-modal');
+  /* ---------- Modal de compra: arma el mensaje y redirige a Instagram ---------- */
+  var modal = document.getElementById('compra-modal');
   if (!modal) { return; }
 
   var backdrop = modal;
-  var goBtn = modal.querySelector('[data-kofi-go]');
-  var stayBtn = modal.querySelector('[data-kofi-stay]');
+  var goBtn = modal.querySelector('[data-compra-go]');
+  var stayBtn = modal.querySelector('[data-compra-stay]');
+  var previewEl = modal.querySelector('[data-compra-preview]');
+  var statusEl = modal.querySelector('[data-compra-status]');
   var lastTrigger = null;
+  var productoActivo = null;
 
   function focusables() {
     return modal.querySelectorAll('a[href], button:not([disabled])');
   }
 
-  function openModal(trigger, url) {
+  // Arma el texto que se copiará al portapapeles antes de ir a Instagram
+  function construirMensaje(producto) {
+    var lineas = [
+      '¡Hola! 🩷 Me interesa: ' + producto.nombre + ' — $' + producto.precio + ' ' + producto.moneda,
+      'Medidas: ' + producto.medidas,
+      'Material: ' + producto.material
+    ];
+    return lineas.join('\n');
+  }
+
+  function abrirInstagramConMensaje(producto) {
+    var mensaje = construirMensaje(producto);
+    var url = 'https://ig.me/m/' + INSTAGRAM_USUARIO;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(mensaje)
+        .then(function () { anunciarCopiado(); })
+        .catch(function () { /* si falla el portapapeles, igual redirigimos */ })
+        .finally(function () { window.open(url, '_blank', 'noopener'); });
+    } else {
+      window.open(url, '_blank', 'noopener');
+    }
+  }
+
+  function anunciarCopiado() {
+    if (statusEl) { statusEl.textContent = 'Mensaje copiado. Pégalo en el chat de Instagram.'; }
+  }
+
+  function openModal(trigger, producto) {
     lastTrigger = trigger || null;
-    if (goBtn && url) { goBtn.setAttribute('href', url); }
+    productoActivo = producto;
+    if (previewEl) { previewEl.textContent = construirMensaje(producto); }
+    if (statusEl) { statusEl.textContent = ''; }
     backdrop.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
     var f = focusables();
@@ -250,6 +298,7 @@
     backdrop.setAttribute('hidden', '');
     document.body.style.overflow = '';
     document.removeEventListener('keydown', onKeydown);
+    productoActivo = null;
     if (lastTrigger) { lastTrigger.focus(); }
   }
 
@@ -269,14 +318,23 @@
 
   // Delegación de eventos: funciona con botones creados dinámicamente (tarjetas del catálogo)
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-kofi]');
+    var btn = e.target.closest('[data-comprar]');
     if (!btn || btn.hasAttribute('disabled')) { return; }
-    openModal(btn, btn.getAttribute('data-kofi-url'));
+    var id = btn.getAttribute('data-comprar-id');
+    obtenerCatalogo().then(function (productos) {
+      var producto = productos.find(function (p) { return p.id === id; });
+      if (producto) { openModal(btn, producto); }
+    });
   });
 
   if (stayBtn) { stayBtn.addEventListener('click', closeModal); }
   backdrop.addEventListener('click', function (e) {
     if (e.target === backdrop) { closeModal(); }
   });
-  if (goBtn) { goBtn.addEventListener('click', closeModal); }
+  if (goBtn) {
+    goBtn.addEventListener('click', function () {
+      if (productoActivo) { abrirInstagramConMensaje(productoActivo); }
+      closeModal();
+    });
+  }
 })();

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "gyaru-girls",
+    "nombre": "Gyaru Girls",
+    "descripcion": "",
+    "imagen": "/assets/productos/gyaru-girls.jpg",
+    "precio": 75,
+    "moneda": "MXN",
+    "categoria": "prints",
+    "medidas": "23 x 18 cm",
+    "material": "Papel mate de 220 gr",
+    "esNovedad": true
+  }
+]

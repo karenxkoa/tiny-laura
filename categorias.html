@@ -101,7 +101,6 @@
         <p class="wordmark">Tiny Laura</p>
         <p>Ilustración, ternura y nostalgia.</p>
         <div class="footer-social">
-          <a href="https://ko-fi.com/tinylaura" aria-label="Ko-fi"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h13v6a4 4 0 01-4 4H8a4 4 0 01-4-4V6z" stroke="currentColor" stroke-width="1.8"/><path d="M17 8h2.2a2.2 2.2 0 010 4.4H17" stroke="currentColor" stroke-width="1.8"/></svg></a>
           <a href="https://facebook.com/tinylaura" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5z"/></svg></a>
           <a href="https://instagram.com/tiny.laura_" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></svg></a>
         </div>
@@ -141,14 +140,16 @@
     <li><a href="conoceme.html"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Sobre mí</span></a></li>
   </ul>
 </nav>
-<div class="modal-backdrop" id="kofi-modal" hidden>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="kofi-title" aria-describedby="kofi-desc">
-    <div class="modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M4 6h13v6a4 4 0 01-4 4H8a4 4 0 01-4-4V6z" stroke="currentColor" stroke-width="1.8"/><path d="M17 8h2.2a2.2 2.2 0 010 4.4H17" stroke="currentColor" stroke-width="1.8"/></svg></div>
-    <h2 id="kofi-title">Ir a la tienda</h2>
-    <p id="kofi-desc">Serás redirigidx a la pasarela de pago en Stripe para completar tu compra.</p>
+<div class="modal-backdrop" id="compra-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="compra-title" aria-describedby="compra-desc">
+    <div class="modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></svg></div>
+    <h2 id="compra-title">Cerremos tu compra por Instagram</h2>
+    <p id="compra-desc">Te llevaremos a nuestro chat de Instagram (@tiny.laura_). Ya copiamos un mensaje con los datos de tu producto — solo pégalo y envíalo.</p>
+    <pre class="modal-preview" data-compra-preview></pre>
+    <p class="modal-status" data-compra-status aria-live="polite"></p>
     <div class="modal-actions">
-      <a class="btn-kofi" data-kofi-go href="https://ko-fi.com/tinylaura" target="_blank" rel="noopener">¡Continuemos!</a>
-      <button class="btn-ghost" data-kofi-stay type="button">Permanecer aquí</button>
+      <button class="btn-comprar" data-compra-go type="button">Ir a Instagram</button>
+      <button class="btn-ghost" data-compra-stay type="button">Permanecer aquí</button>
     </div>
   </div>
 </div>
